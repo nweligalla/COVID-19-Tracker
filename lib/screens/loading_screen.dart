@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trackingcorona/screens/sl_dashboard.dart';
-import 'package:trackingcorona/services/health_data.dart';
-import 'package:trackingcorona/components/title_container.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:trackingcorona/components/constants.dart';
+import './sl_dashboard.dart';
+import '../services/health_data.dart';
+import '../widgets/title_container.dart';
+import '../components/constants.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String id = "loading_screen";
@@ -12,19 +12,17 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  bool isError;
   Future getInitialHealthData() async {
     HealthData healthData = HealthData();
     var hdata = await healthData.getHealthData();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return SlDashboard(
-            dataMap: hdata,
-          );
-        },
-      ),
-    );
+    if (hdata != false) {
+      isError = false;
+      Navigator.of(context)
+          .pushReplacementNamed(SlDashboard.id, arguments: hdata);
+    } else {
+      isError = true;
+    }
   }
 
   @override
@@ -36,13 +34,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: kBackgroundColor,
       body: Center(
-        child: Shimmer.fromColors(
-          baseColor: Colors.black,
-          highlightColor: Colors.white,
-          child: TitleContainer(),
-        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Shimmer.fromColors(
+            baseColor: Colors.black,
+            highlightColor: Colors.white,
+            child: TitleContainer(),
+          ),
+        ]),
       ),
     );
   }

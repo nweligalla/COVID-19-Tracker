@@ -21,17 +21,19 @@ class TitleContainer extends StatelessWidget {
           Text(
             "COVID-19",
             style: TextStyle(
-                color: Colors.grey.shade800,
-                fontSize: 55,
-                fontFamily: "FredokaOne",
-                letterSpacing: 1),
+              color: Colors.grey.shade800,
+              fontSize: 55,
+              fontFamily: "FredokaOne",
+              letterSpacing: 1,
+            ),
           ),
           Text(
             " Live Situational Dashboard.",
             style: TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Oxanium"),
+              fontSize: 21,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Oxanium",
+            ),
           )
         ],
       ),

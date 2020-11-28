@@ -1,15 +1,16 @@
 import 'package:http/http.dart';
 import 'dart:convert';
+import '../components/constants.dart';
 
 class HealthNetwork {
   Future getHealthData() async {
-    Response response =
-        await get("https://www.hpb.health.gov.lk/api/get-current-statistical");
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      return "Error";
+    try {
+      Response response = await get(kApiKey);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      print("error");
     }
   }
 }

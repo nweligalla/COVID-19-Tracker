@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trackingcorona/components/call_data.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:trackingcorona/components/constants.dart';
+import '../modals/call_data.dart';
+import '../components/constants.dart';
 
 class CallScreen extends StatefulWidget {
   static String id = "CallScreen";
@@ -10,15 +10,7 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  List<CallData> callinfo = [
-    CallData(
-        name: "1990",
-        number: "1990",
-        discription: "Ambulance Service For Emergencies"),
-    CallData(name: "1999", number: "1999", discription: "Health Information"),
-    CallData(
-        name: "117", number: "117", discription: "Covid-19 Related Complaints"),
-  ];
+  List<CallData> callinfo = CallData.callInfomation;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +21,7 @@ class _CallScreenState extends State<CallScreen> {
         centerTitle: true,
         backgroundColor: Colors.blueGrey[600],
       ),
-      backgroundColor: backgroundColor,
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 15),
@@ -37,7 +29,10 @@ class _CallScreenState extends State<CallScreen> {
             itemCount: callinfo.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 child: Card(
                   color: Colors.grey[50],
                   shape: RoundedRectangleBorder(
@@ -46,21 +41,31 @@ class _CallScreenState extends State<CallScreen> {
                   elevation: 16,
                   child: ListTile(
                     title: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 5, bottom: 8),
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 5,
+                        bottom: 8,
+                      ),
                       child: Text(
                         callinfo[index].name,
                         style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.grey[800],
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     subtitle: Padding(
-                      padding: const EdgeInsets.only(left: 7, bottom: 10),
+                      padding: const EdgeInsets.only(
+                        left: 7,
+                        bottom: 10,
+                      ),
                       child: Text(
                         callinfo[index].discription,
-                        style: TextStyle(color: Colors.grey[900], fontSize: 18),
+                        style: TextStyle(
+                          color: Colors.grey[900],
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                     trailing: Column(

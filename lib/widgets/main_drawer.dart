@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trackingcorona/screens/faq_screen.dart';
-import 'package:trackingcorona/screens/call_screen.dart';
+import '../screens/faq_screen.dart';
+import '../screens/call_screen.dart';
 
-class MainDrawer extends StatefulWidget {
-  @override
-  _MainDrawerState createState() => _MainDrawerState();
-}
-
-class _MainDrawerState extends State<MainDrawer> {
+class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
