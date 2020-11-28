@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:trackingcorona/services/health_data.dart';
-import 'package:trackingcorona/components/reusable_card.dart';
-import 'package:trackingcorona/components/title_container.dart';
-import 'package:trackingcorona/components/reusable_mini_card.dart';
-import 'package:trackingcorona/components/custom_FAB.dart';
-import 'package:trackingcorona/components/under_Container.dart';
-import 'package:trackingcorona/components/constants.dart';
+import '../services/health_data.dart';
+import '../widgets/reusable_card.dart';
+import '../widgets/title_container.dart';
+import '../widgets/reusable_mini_card.dart';
+import '../widgets/floating_action_button.dart';
+import '../widgets/under_Container.dart';
+import '../components/constants.dart';
 
 class GlobalDashboard extends StatefulWidget {
-  final Map mapData;
-
-  GlobalDashboard({this.mapData});
-
   static const String id = "GlobalDashboard";
   @override
   _GlobalDashboardState createState() => _GlobalDashboardState();
@@ -35,16 +31,21 @@ class _GlobalDashboardState extends State<GlobalDashboard> {
     _updateTime = data["updateTime"];
   }
 
-  @override
-  void initState() {
-    updateUI(widget.mapData);
-    super.initState();
+  Future refreshUI() async {
+    HealthData healthData = HealthData();
+    var hlthData = await healthData.getHealthData();
+    setState(() {
+      updateUI(hlthData);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    var globalData = ModalRoute.of(context).settings.arguments;
+    updateUI(globalData);
     return Scaffold(
-        floatingActionButton: CustomFAB(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionBtn(
           color: Colors.blueGrey.shade900,
           label: "Sri Lanka",
           icon: FontAwesomeIcons.globeAsia,
@@ -52,23 +53,29 @@ class _GlobalDashboardState extends State<GlobalDashboard> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: kBackgroundColor,
         body: SafeArea(
           child: RefreshIndicator(
-            onRefresh: () async {
-              HealthData healthData = HealthData();
-              var hlthData = await healthData.getHealthData();
-              setState(() {
-                updateUI(hlthData);
-              });
-            },
+            onRefresh: refreshUI,
             child: ListView(
               children: <Widget>[
-                TitleContainer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TitleContainer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Image.network(
+                        kEarthFlagLink,
+                        height: 39,
+                      ),
+                    )
+                  ],
+                ),
                 Center(
                   child: Text(
                     "Last updated at $_updateTime",
-                    style: lastUpdateTextStyle,
+                    style: kLastUpdateTextStyle,
                   ),
                 ),
                 UnderContainer(
@@ -79,7 +86,7 @@ class _GlobalDashboardState extends State<GlobalDashboard> {
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           "Total",
-                          style: cardTitleTextStyle,
+                          style: kCardTitleTextStyle,
                         ),
                       ),
                       ReusableCard(
@@ -120,7 +127,7 @@ class _GlobalDashboardState extends State<GlobalDashboard> {
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           "Daily",
-                          style: cardTitleTextStyle,
+                          style: kCardTitleTextStyle,
                         ),
                       ),
                       Row(

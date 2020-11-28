@@ -1,4 +1,4 @@
-import 'package:trackingcorona/services/network.dart';
+import '../services/network.dart';
 
 class HealthData {
   // local total
@@ -26,6 +26,7 @@ class HealthData {
   Future getHealthData() async {
     HealthNetwork healthNetwork = HealthNetwork();
     var data = await healthNetwork.getHealthData();
+
     //
     _localTotalcases = data["data"]["local_total_cases"];
     _localTotalDeaths = data["data"]["local_deaths"];
